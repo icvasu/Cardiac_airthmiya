@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="form-container fade-in">
+        <h2 class="text-center mb-4">Cardiac Health Assessment</h2>
+        <p class="text-center text-muted mb-4">Enter patient details for cardiac risk assessment</p>
+        
+        <form class="form-horizontal" action="{{ url_for('predictPage') }}" method="POST">
+            <div class="row">
+                <div class="col-md-3">
+                    <label><b>Name</b></label>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="name" placeholder="Enter name" required>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label><b>Age</b></label>
+                    <div class="form-group">
+                        <input class="form-control" type="number" name="age" placeholder="Age" required min="1" max="120">
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <label><b>History of Cardiac Arrest</b></label>
+                    <select name="his" id="his" class="form-control">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label><b>Gender</b></label>
+                    <select name="Gender" id="Gender" class="form-control">
+                        <option value="0">Male</option>
+                        <option value="1">Female</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row mt-3">   
+                <div class="col-md-6">
+                    <label><b>Height (cm)</b></label>
+                    <div class="form-group">
+                        <input class="form-control" type="number" name="height" placeholder="Height in cm" required min="50" max="250">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label><b>Weight (kg)</b></label>
+                    <div class="form-group">
+                        <input class="form-control" type="number" name="Weight" placeholder="Weight in kg" required min="20" max="300">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <label><b>ECG Value</b></label>
+                    <div class="form-group">
+                        <input class="form-control" type="number" name="ECG" step="any" min="0" max="700" required value="{{ ecg }}">
+                        <small class="text-muted">Auto-filled from ThingSpeak</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label><b>Heart Rate (bpm)</b></label>
+                    <div class="form-group">
+                        <input class="form-control" type="number" name="Heart_Rate" step="any" min="20" max="250" required value="{{ hb }}">
+                        <small class="text-muted">Auto-filled from ThingSpeak</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label><b>Temperature (°C)</b></label>
+                    <div class="form-group">
+                        <input class="form-control" type="number" name="Temperature" step="any" min="6" max="200" required value="{{ temp }}">
+                        <small class="text-muted">Auto-filled from ThingSpeak</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-chart-line"></i> Analyze Cardiac Health
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

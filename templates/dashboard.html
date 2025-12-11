@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="fas fa-tachometer-alt"></i> Detection History</h2>
+                <a href="{{ url_for('input_form') }}" class="btn btn-primary">
+                    <i class="fas fa-plus-circle"></i> New Detection
+                </a>
+            </div>
+            
+            {% if detections %}
+            <div class="table-responsive">
+                <table class="table table-hover table-striped" id="detectionsTable">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>ECG</th>
+                            <th>Heart Rate</th>
+                            <th>Temperature</th>
+                            <th>Condition</th>
+                            <th>Risk Level</th>
+                            <th>Deviation</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for detection in detections %}
+                        <tr class="{% if detection.risk_level == 'HIGH' %}table-danger{% elif detection.risk_level == 'MODERATE' %}table-warning{% else %}table-success{% endif %}">
+                            <td>{{ loop.index }}</td>
+                            <td><strong>{{ detection.name }}</strong></td>
+                            <td>{{ detection.age }}</td>
+                            <td>{{ "Female" if detection.gender == "1" else "Male" }}</td>
+                            <td>{{ detection.ecg }}</td>
+                            <td>{{ detection.heart_rate }}</td>
+                            <td>{{ detection.temperature }}°C</td>
+                            <td>
+                                <span class="badge bg-info">{{ detection.condition }}</span>
+                            </td>
+                            <td>
+                                <span class="badge {% if detection.risk_level == 'HIGH' %}bg-danger{% elif detection.risk_level == 'MODERATE' %}bg-warning{% else %}bg-success{% endif %}">
+                                    {{ detection.risk_level }}
+                                </span>
+                            </td>
+                            <td>{{ detection.deviation_percentage }}%</td>
+                            <td>{{ detection.created_at[:16] }}</td>
+                            <td>
+                                
+                                <a href="{{ url_for('delete_detection', detection_id=detection.id) }}" 
+                                   class="btn btn-sm btn-danger" 
+                                   onclick="return confirm('Are you sure you want to delete this detection?')">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Statistics Cards -->
+            <!-- Statistics Cards -->
+<div class="row mt-5">
+    <div class="col-md-3">
+        <div class="dashboard-card text-center">
+            <div class="feature-icon mx-auto mb-3">
+                <i class="fas fa-chart-bar"></i>
+            </div>
+            <h3>{{ detections|length }}</h3>
+            <p class="text-muted">Total Detections</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="dashboard-card text-center">
+            <div class="feature-icon mx-auto mb-3" style="background: var(--success-gradient);">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>{{ (detections|selectattr('risk_level', 'equalto', 'Normal')|list|length) + (detections|selectattr('risk_level', 'equalto', 'LOW')|list|length) }}</h3>
+            <p class="text-muted">Normal & Low Risk</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="dashboard-card text-center">
+            <div class="feature-icon mx-auto mb-3" style="background: var(--warning-gradient);">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3>{{ detections|selectattr('risk_level', 'equalto', 'Moderate')|list|length }}</h3>
+            <p class="text-muted">Moderate Risk</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="dashboard-card text-center">
+            <div class="feature-icon mx-auto mb-3" style="background: var(--secondary-gradient);">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <h3>{{ detections|selectattr('risk_level', 'equalto', 'High')|list|length }}</h3>
+            <p class="text-muted">High Risk Cases</p>
+        </div>
+    </div>
+</div>
+            
+            {% else %}
+            <div class="text-center py-5">
+                <div class="feature-icon mx-auto mb-4" style="width: 100px; height: 100px;">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <h3>No Detection History</h3>
+                <p class="text-muted mb-4">You haven't performed any cardiac health assessments yet.</p>
+                <a href="{{ url_for('input_form') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus-circle"></i> Start Your First Assessment
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detection Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Details will be loaded here via JavaScript -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,1025 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+/* Enhanced Red/Blue Theme Variables */
+:root {
+    --primary-blue: #0057b8;
+    --primary-red: #d32f2f;
+    --dark-blue: #00376d;
+    --light-blue: #4fc3f7;
+    --accent-red: #ff5252;
+    --accent-blue: #448aff;
+    --gradient-primary: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+    --gradient-accent: linear-gradient(135deg, var(--accent-red) 0%, var(--primary-red) 100%);
+    --gradient-blue: linear-gradient(135deg, var(--light-blue) 0%, var(--accent-blue) 100%);
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --shadow-strong: 0 10px 30px rgba(0, 87, 184, 0.2);
+    --shadow-accent: 0 10px 30px rgba(211, 47, 47, 0.2);
+}
+
+/* Enhanced Animated Background */
+.enhanced-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+}
+
+.pulse-dots {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.pulse-dot {
+    position: absolute;
+    background: var(--light-blue);
+    border-radius: 50%;
+    animation: pulseDot 3s ease-in-out infinite;
+}
+
+.pulse-dot:nth-child(2n) {
+    background: var(--accent-red);
+    animation-delay: 1s;
+}
+
+.pulse-dot:nth-child(3n) {
+    background: var(--primary-blue);
+    animation-delay: 2s;
+}
+
+@keyframes pulseDot {
+    0%, 100% {
+        transform: scale(0.5);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.8;
+    }
+}
+
+/* Enhanced Hero Section */
+.enhanced-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 100px 0 50px;
+    overflow: hidden;
+}
+
+.hero-glow {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(0, 87, 184, 0.1) 0%, rgba(0, 87, 184, 0) 70%);
+    border-radius: 50%;
+    top: 50%;
+    right: -200px;
+    transform: translateY(-50%);
+}
+
+.hero-glow-red {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(211, 47, 47, 0.1) 0%, rgba(211, 47, 47, 0) 70%);
+    border-radius: 50%;
+    top: 20%;
+    left: -100px;
+}
+
+.hero-title-gradient {
+    background: linear-gradient(90deg, var(--primary-blue), var(--accent-red));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+}
+
+.hero-title-gradient::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100px;
+    height: 4px;
+    background: var(--gradient-accent);
+    border-radius: 2px;
+}
+
+.enhanced-badge {
+    background: var(--gradient-accent);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% {
+        box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 25px rgba(211, 47, 47, 0.5);
+    }
+}
+
+.hero-stats-enhanced {
+    display: flex;
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: var(--shadow-strong);
+    text-align: center;
+    min-width: 120px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-accent);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--primary-blue), var(--accent-red));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1;
+}
+
+.stat-label {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+/* Enhanced Cards */
+.enhanced-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: var(--shadow-strong);
+    border: 1px solid rgba(0, 87, 184, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.enhanced-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 87, 184, 0.3);
+}
+
+.enhanced-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-blue);
+}
+
+.enhanced-card.red-accent::before {
+    background: var(--gradient-accent);
+}
+
+/* Enhanced Buttons */
+.btn-gradient {
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-gradient:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 87, 184, 0.3);
+    color: white;
+}
+
+.btn-gradient::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-accent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.btn-gradient:hover::after {
+    opacity: 1;
+}
+
+.btn-gradient span {
+    position: relative;
+    z-index: 2;
+}
+
+.btn-gradient-accent {
+    background: var(--gradient-accent);
+}
+
+/* Enhanced Feature Cards */
+.feature-card-enhanced {
+    background: white;
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 87, 184, 0.1);
+}
+
+.feature-card-enhanced:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-accent);
+}
+
+.feature-icon-container {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    position: relative;
+}
+
+.feature-icon-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--gradient-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    color: white;
+    position: relative;
+    z-index: 2;
+    animation: iconFloat 3s ease-in-out infinite;
+}
+
+.feature-card-enhanced:hover .feature-icon-circle {
+    background: var(--gradient-accent);
+    animation: iconPulse 1s ease-in-out infinite;
+}
+
+.feature-icon-glow {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    background: var(--light-blue);
+    opacity: 0.2;
+    z-index: 1;
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes iconPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        opacity: 0.2;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.4;
+        transform: scale(1.1);
+    }
+}
+
+/* Enhanced Carousel */
+.carousel-3d-enhanced {
+    perspective: 1500px;
+    position: relative;
+}
+
+.carousel-3d-enhanced .carousel-inner {
+    transform-style: preserve-3d;
+}
+
+.carousel-3d-enhanced .carousel-item {
+    opacity: 0;
+    transition: all 0.5s ease;
+    transform: rotateY(180deg);
+}
+
+.carousel-3d-enhanced .carousel-item.active {
+    opacity: 1;
+    transform: rotateY(0deg);
+}
+
+.hero-image-overlay {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.hero-image-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(0, 87, 184, 0.3), rgba(211, 47, 47, 0.3));
+    z-index: 1;
+}
+
+.hero-image-overlay img {
+    filter: saturate(1.2);
+    transition: transform 0.5s ease;
+}
+
+.hero-image-overlay:hover img {
+    transform: scale(1.05);
+}
+
+/* Enhanced Steps */
+.step-timeline {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0;
+}
+
+.step-timeline::before {
+    content: '';
+    position: absolute;
+    top: 40px;
+    left: 50px;
+    right: 50px;
+    height: 3px;
+    background: var(--gradient-blue);
+    z-index: 1;
+}
+
+.step-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--light-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: var(--primary-blue);
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.step-circle.active {
+    background: var(--gradient-accent);
+    border-color: var(--accent-red);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(211, 47, 47, 0.3);
+}
+
+/* Enhanced CTA */
+.cta-gradient {
+    background: var(--gradient-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-gradient::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    animation: ctaParticles 20s linear infinite;
+}
+
+@keyframes ctaParticles {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Enhanced Trust Section */
+.trust-badge {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.trust-badge:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 87, 184, 0.2);
+}
+
+.trust-badge i {
+    font-size: 2rem;
+    background: linear-gradient(90deg, var(--primary-blue), var(--accent-red));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-stats-enhanced {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .stat-card {
+        min-width: calc(50% - 15px);
+    }
+    
+    .step-timeline {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+    
+    .step-timeline::before {
+        display: none;
+    }
+}
+
+/* Animation Classes */
+.fade-in-up {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.heartbeat {
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+</style>
+
+<!-- Enhanced Background -->
+<div class="enhanced-background">
+    <div class="pulse-dots">
+        <!-- Dots will be generated by JS -->
+    </div>
+</div>
+
+<!-- Enhanced Hero Section -->
+<section class="enhanced-hero">
+    <div class="hero-glow"></div>
+    <div class="hero-glow-red"></div>
+    
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="hero-content fade-in-up">
+                    <span class="enhanced-badge heartbeat">
+                        <i class="fas fa-shield-heart"></i> AI-Powered Cardiac Care
+                    </span>
+                    
+                    <h1 class="display-3 fw-bold mt-4 hero-title-gradient">
+                        Early Detection <br>
+                        <span class="text-dark">for Monitoring</span> <br>
+                        Cardiac Arrest
+                    </h1>
+                    
+                    <p class="lead text-muted mt-4 mb-5">
+                        Advanced AI-powered system for early detection and monitoring of cardiac conditions 
+                        using real-time data analysis and machine learning algorithms.
+                    </p>
+                    
+                    <!-- Enhanced Stats -->
+                    <div class="hero-stats-enhanced">
+                        <div class="stat-card">
+                            <div class="stat-number" data-count="99">0</div>
+                            <div class="stat-label">Accuracy Rate</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" data-count="500">0</div>
+                            <div class="stat-label">Lives Protected</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" data-count="24">0</div>
+                            <div class="stat-label">/7 Support</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Enhanced Buttons -->
+                    <div class="hero-buttons mt-5">
+                        {% if session.user_id %}
+                        <a href="{{ url_for('input_form') }}" class="btn btn-gradient btn-lg me-3">
+                            <i class="fas fa-plus-circle me-2"></i>
+                            <span>Start New Detection</span>
+                        </a>
+                        {% else %}
+                        <a href="{{ url_for('register') }}" class="btn btn-gradient btn-lg me-3">
+                            <i class="fas fa-rocket me-2"></i>
+                            <span>Get Started Free</span>
+                        </a>
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-sign-in-alt me-2"></i>
+                            <span>Login</span>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="position-relative">
+                    <!-- Floating Cards -->
+                    <div class="position-absolute" style="top: -20px; left: -30px; z-index: 3;">
+                        <div class="enhanced-card" style="width: 180px; padding: 15px;">
+                            <i class="fas fa-heartbeat fa-2x mb-2 text-primary-blue"></i>
+                            <h6 class="mb-0">Real-time ECG</h6>
+                        </div>
+                    </div>
+                    
+                    <div class="position-absolute" style="top: 50px; right: -20px; z-index: 3;">
+                        <div class="enhanced-card red-accent" style="width: 160px; padding: 15px;">
+                            <i class="fas fa-brain fa-2x mb-2 text-accent-red"></i>
+                            <h6 class="mb-0">AI Analysis</h6>
+                        </div>
+                    </div>
+                    
+                    <!-- Enhanced Carousel -->
+                    <div id="heroCarousel" class="carousel slide carousel-3d-enhanced" data-bs-ride="carousel">
+                        <div class="carousel-inner rounded-4 overflow-hidden">
+                            <div class="carousel-item active">
+                                <div class="hero-image-overlay">
+                                    <img src="https://i.pinimg.com/originals/89/e4/b6/89e4b6a49573b915b7f0d773fe1ef1de.gif" 
+                                         class="d-block w-100" alt="Cardiac Monitoring" 
+                                         style="height: 500px; object-fit: cover;">
+                                    <div class="position-absolute bottom-0 start-0 p-4 text-white" style="z-index: 2;">
+                                        <h4 class="mb-1">Real-time ECG Analysis</h4>
+                                        <p class="mb-0 opacity-75">Continuous heart monitoring with AI-powered insights</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="hero-image-overlay">
+                                    <img src="https://www.drmageshcardiologist.com/images/cpr-gif.gif" 
+                                         class="d-block w-100" alt="Heart Health" 
+                                         style="height: 500px; object-fit: cover;">
+                                    <div class="position-absolute bottom-0 start-0 p-4 text-white" style="z-index: 2;">
+                                        <h4 class="mb-1">Smart Health Dashboard</h4>
+                                        <p class="mb-0 opacity-75">Comprehensive health metrics at your fingertips</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon bg-primary-blue rounded-circle p-3"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon bg-primary-blue rounded-circle p-3"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scroll Indicator -->
+    <div class="position-absolute bottom-0 start-50 translate-middle-x mb-4">
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <p class="small mt-2 text-muted">Scroll to explore</p>
+        </div>
+    </div>
+</section>
+
+<!-- Enhanced Features Section -->
+<section class="py-5" id="features" style="background: #f8fafc;">
+    <div class="container py-5">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-4 fw-bold mb-3">
+                    <span class="text-primary-blue">Why Choose</span> 
+                    <span class="text-accent-red">CardiacGuard?</span>
+                </h2>
+                <p class="lead text-muted">
+                    Revolutionary cardiac care with cutting-edge technology and proven results
+                </p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card-enhanced">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon-circle">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div class="feature-icon-glow"></div>
+                    </div>
+                    <h4 class="fw-bold mb-3">Real-time Monitoring</h4>
+                    <p class="text-muted">
+                        Continuous monitoring of ECG, heart rate, and temperature with ThingSpeak integration 
+                        and live data streaming.
+                    </p>
+                    <div class="mt-4">
+                        <span class="badge bg-primary-blue bg-opacity-10 text-primary-blue p-2">
+                            <i class="fas fa-sync-alt me-1"></i> Live Updates
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card-enhanced">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon-circle">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="feature-icon-glow"></div>
+                    </div>
+                    <h4 class="fw-bold mb-3">AI-Powered Analysis</h4>
+                    <p class="text-muted">
+                        Advanced KNN algorithm with deep learning for accurate prediction of 15+ cardiac 
+                        conditions in real-time.
+                    </p>
+                    <div class="mt-4">
+                        <span class="badge bg-accent-red bg-opacity-10 text-accent-red p-2">
+                            <i class="fas fa-robot me-1"></i> 99% Accuracy
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card-enhanced">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon-circle">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="feature-icon-glow"></div>
+                    </div>
+                    <h4 class="fw-bold mb-3">Risk Assessment</h4>
+                    <p class="text-muted">
+                        Comprehensive risk evaluation with personalized recommendations and preventive 
+                        care strategies.
+                    </p>
+                    <div class="mt-4">
+                        <span class="badge bg-primary-blue bg-opacity-10 text-primary-blue p-2">
+                            <i class="fas fa-chart-line me-1"></i> Smart Insights
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Features Row -->
+        <div class="row g-4 mt-2">
+            <div class="col-md-4">
+                <div class="enhanced-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="me-3">
+                            <i class="fas fa-bell fa-2x text-accent-red"></i>
+                        </div>
+                        <h5 class="mb-0 fw-bold">Instant Alerts</h5>
+                    </div>
+                    <p class="text-muted mb-0">
+                        Real-time Telegram notifications for critical conditions with detailed medical reports
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="enhanced-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="me-3">
+                            <i class="fas fa-mobile-alt fa-2x text-primary-blue"></i>
+                        </div>
+                        <h5 class="mb-0 fw-bold">Mobile Ready</h5>
+                    </div>
+                    <p class="text-muted mb-0">
+                        Fully responsive design that works seamlessly across all devices and screen sizes
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="enhanced-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="me-3">
+                            <i class="fas fa-database fa-2x text-accent-blue"></i>
+                        </div>
+                        <h5 class="mb-0 fw-bold">Secure History</h5>
+                    </div>
+                    <p class="text-muted mb-0">
+                        Encrypted data storage with complete detection history and trend analysis
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enhanced How It Works -->
+<section class="py-5">
+    <div class="container py-5">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-4 fw-bold mb-3">
+                    How It <span class="text-accent-red">Works</span>
+                </h2>
+                <p class="lead text-muted">
+                    Simple steps to safeguard your heart health
+                </p>
+            </div>
+        </div>
+        
+        <div class="step-timeline">
+            <div class="step-item text-center">
+                <div class="step-circle active heartbeat">1</div>
+                <div class="mt-4">
+                    <div class="step-icon mb-3">
+                        <i class="fas fa-user-plus fa-2x text-primary-blue"></i>
+                    </div>
+                    <h5 class="fw-bold">Register & Login</h5>
+                    <p class="text-muted small">Create your secure account in seconds</p>
+                </div>
+            </div>
+            
+            <div class="step-item text-center">
+                <div class="step-circle">2</div>
+                <div class="mt-4">
+                    <div class="step-icon mb-3">
+                        <i class="fas fa-heartbeat fa-2x text-primary-blue"></i>
+                    </div>
+                    <h5 class="fw-bold">Input Data</h5>
+                    <p class="text-muted small">Enter patient details and vital signs</p>
+                </div>
+            </div>
+            
+            <div class="step-item text-center">
+                <div class="step-circle">3</div>
+                <div class="mt-4">
+                    <div class="step-icon mb-3">
+                        <i class="fas fa-brain fa-2x text-primary-blue"></i>
+                    </div>
+                    <h5 class="fw-bold">AI Analysis</h5>
+                    <p class="text-muted small">Advanced ML algorithms process your data</p>
+                </div>
+            </div>
+            
+            <div class="step-item text-center">
+                <div class="step-circle">4</div>
+                <div class="mt-4">
+                    <div class="step-icon mb-3">
+                        <i class="fas fa-file-medical-alt fa-2x text-primary-blue"></i>
+                    </div>
+                    <h5 class="fw-bold">Get Results</h5>
+                    <p class="text-muted small">Receive detailed risk assessment</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enhanced CTA Section -->
+<section class="cta-gradient py-5">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center text-white">
+                <h2 class="display-4 fw-bold mb-4">
+                    Ready to Protect Your <span class="text-warning">Heart Health</span>?
+                </h2>
+                <p class="lead mb-5 opacity-90">
+                    Join thousands of users who trust CardiacGuard for their cardiac monitoring needs. 
+                    Get started today and take control of your heart health.
+                </p>
+                
+                <div class="cta-buttons">
+                    {% if session.user_id %}
+                    <a href="{{ url_for('input_form') }}" class="btn btn-light btn-lg px-5 py-3 fw-bold me-3">
+                        <i class="fas fa-plus-circle me-2"></i>
+                        Start New Detection
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('register') }}" class="btn btn-light btn-lg px-5 py-3 fw-bold me-3">
+                        <i class="fas fa-rocket me-2"></i>
+                        Start Free Today
+                    </a>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg px-5 py-3 fw-bold">
+                        <i class="fas fa-sign-in-alt me-2"></i>
+                        Existing User
+                    </a>
+                    {% endif %}
+                </div>
+                
+                <div class="mt-5">
+                    <p class="small opacity-75">
+                        <i class="fas fa-lock me-1"></i> 100% Secure & HIPAA Compliant
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enhanced Trust Section -->
+<section class="py-5">
+    <div class="container py-4">
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="trust-badge text-center">
+                    <i class="fas fa-shield-alt"></i>
+                    <h6 class="fw-bold mt-2">HIPAA Compliant</h6>
+                    <p class="small text-muted mb-0">Enterprise-grade security</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="trust-badge text-center">
+                    <i class="fas fa-user-md"></i>
+                    <h6 class="fw-bold mt-2">Doctor Approved</h6>
+                    <p class="small text-muted mb-0">Medical expert validation</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="trust-badge text-center">
+                    <i class="fas fa-bolt"></i>
+                    <h6 class="fw-bold mt-2">Real-time Alerts</h6>
+                    <p class="small text-muted mb-0">Instant notifications</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="trust-badge text-center">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h6 class="fw-bold mt-2">Mobile Optimized</h6>
+                    <p class="small text-muted mb-0">Works on all devices</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Animated background dots
+function createPulseDots() {
+    const container = document.querySelector('.pulse-dots');
+    for (let i = 0; i < 20; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'pulse-dot';
+        dot.style.width = Math.random() * 20 + 10 + 'px';
+        dot.style.height = dot.style.width;
+        dot.style.left = Math.random() * 100 + '%';
+        dot.style.top = Math.random() * 100 + '%';
+        dot.style.animationDelay = Math.random() * 3 + 's';
+        container.appendChild(dot);
+    }
+}
+
+// Number counting animation
+function animateNumbers() {
+    const counters = document.querySelectorAll('.stat-number');
+    const speed = 200;
+    
+    counters.forEach(counter => {
+        const updateCount = () => {
+            const target = +counter.getAttribute('data-count');
+            const count = +counter.innerText.replace(/,/g, '');
+            const increment = Math.ceil(target / speed);
+            
+            if (count < target) {
+                counter.innerText = count + increment;
+                setTimeout(updateCount, 10);
+            } else {
+                counter.innerText = target.toLocaleString();
+            }
+        };
+        updateCount();
+    });
+}
+
+// Step animation on scroll
+function animateSteps() {
+    const steps = document.querySelectorAll('.step-circle');
+    steps.forEach((step, index) => {
+        setTimeout(() => {
+            step.classList.add('active');
+        }, index * 300);
+    });
+}
+
+// Initialize animations
+document.addEventListener('DOMContentLoaded', function() {
+    createPulseDots();
+    
+    // Trigger animations when in viewport
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (entry.target.classList.contains('hero-stats-enhanced')) {
+                    animateNumbers();
+                }
+                if (entry.target.classList.contains('step-timeline')) {
+                    animateSteps();
+                }
+            }
+        });
+    });
+    
+    // Observe elements
+    const elementsToObserve = document.querySelectorAll('.hero-stats-enhanced, .step-timeline');
+    elementsToObserve.forEach(el => observer.observe(el));
+});
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

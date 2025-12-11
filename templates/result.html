@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card result-card fade-in {% if risk[0] == 'LOW' %}risk-low{% elif risk[0] == 'MODERATE' %}risk-moderate{% else %}risk-high{% endif %}">
+                <div class="card-header text-center">
+                    <h2><i class="fas fa-file-medical-alt"></i> Cardiac Health Report</h2>
+                    {% if telegram_sent %}
+                    <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                        <i class="fas fa-paper-plane"></i> Telegram alert sent successfully!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
+                        <i class="fas fa-exclamation-triangle"></i> Telegram alert failed to send.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <!-- Patient Information -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-user"></i> Patient Details</h5>
+                            <p><strong>Name:</strong> {{ name }}</p>
+                            <p><strong>Age:</strong> {{ age }}</p>
+                            <p><strong>Gender:</strong> {{ "Female" if gender == "1" else "Male" }}</p>
+                            <p><strong>History:</strong> {{ history }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-heartbeat"></i> Vital Signs</h5>
+                            <p><strong>ECG:</strong> {{ ecg }}</p>
+                            <p><strong>Heart Rate:</strong> {{ heart_rate }} bpm</p>
+                            <p><strong>Class Number:</strong> {{ clsno }} </p>
+                            <p><strong>Deviation:</strong> {{ deviation_percentage }}%</p>
+                        </div>
+                    </div>
+
+                    <!-- Results -->
+                    <div class="alert {% if risk[0] == 'LOW' %}alert-success{% elif risk[0] == 'MODERATE' %}alert-warning{% else %}alert-danger{% endif %}">
+                        <h4 class="alert-heading">
+                            <i class="fas fa-{% if risk[0] == 'LOW' %}check-circle{% elif risk[0] == 'MODERATE' %}exclamation-triangle{% else %}exclamation-circle{% endif %}"></i>
+                            Diagnosis: {{ result }}
+                        </h4>
+                        <p class="mb-0"><strong>Risk Level:</strong> 
+                            <span class="badge {% if risk[0] == 'LOW' %}bg-success{% elif risk[0] == 'MODERATE' %}bg-warning{% else %}bg-danger{% endif %}">
+                                {{ risk[0] }}
+                            </span>
+                        </p>
+                    </div>
+
+                    <!-- Recommendations -->
+                    <div class="recommendations mt-4">
+                        <h5><i class="fas fa-list-alt"></i> Recommendations</h5>
+                        <div class="list-group">
+                            {% for recommendation in risk[1:] %}
+                            <div class="list-group-item">
+                                <i class="fas fa-chevron-circle-right text-primary"></i>
+                                {{ recommendation }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-primary me-2">
+                            <i class="fas fa-history"></i> View History
+                        </a>
+                        <a href="{{ url_for('input_form') }}" class="btn btn-outline-primary">
+                            <i class="fas fa-plus"></i> New Assessment
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
